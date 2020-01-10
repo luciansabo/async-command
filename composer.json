@@ -1,5 +1,7 @@
 {
     "name": "luciansabo/async-command",
+    "description": "Paralellize php code execution when used inside command line scripts with the help of a Worker Pool",
+    "type": "library",
     "authors": [
         {
             "name": "Lucian Sabo",
@@ -13,6 +15,7 @@
     "require-dev": {
         "phpunit/phpunit": "^8"
     },
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "Lucian\\AsyncCommand\\": "src/",
