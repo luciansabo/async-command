@@ -1,0 +1,22 @@
+{
+    "name": "luciansabo/async-command",
+    "authors": [
+        {
+            "name": "Lucian Sabo",
+            "email": "luciansabo@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/process": ">=3.4",
+        "guzzlehttp/promises": ">=1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lucian\\AsyncCommand\\": "src/",
+            "Tests\\": "tests/"
+        }
+    }
+}
