@@ -82,12 +82,53 @@ $promise->then(
 
 ## Executing worker code from same class
 
-To define a entrypoint inside the current class use:
+To define a entry-point inside the current class pass `this:<method>` in the `PhpScriptEntryPoint` method argument.
+Don't forget to build WorkerPool using `$this` as the parent argument.
 
 ```php
-use Lucian\AsyncCommand\EntryPoint\PhpScriptEntryPoint;
+<?php
 
-$entryPoint = new PhpScriptEntryPoint(__FILE__, 'this:workerCode');
+use Lucian\AsyncCommand\EntryPoint\PhpScriptEntryPoint;
+use Lucian\AsyncCommand\WorkerPool;
+
+require_once 'vendor/autoload.php';
+
+class SampleObjectMethodEntrypoint
+{
+    private $workerPool;
+
+    public function __construct()
+    {
+        $this->workerPool = new WorkerPool($this, 4);
+    }
+
+    public function execute()
+    {
+        $entryPoint = new PhpScriptEntryPoint(__FILE__, 'this:workerCode');
+
+        $param2 = 'test';
+        for ($i = 0; $i < 10; $i++) {
+            $promise = $this->workerPool->runAsync($entryPoint, $i, $param2);
+            $promise->then(
+                function ($value) {
+                    // do something with the value
+                    echo "$value\n";
+                    return $value;
+                }
+            );
+        }
+
+        $this->workerPool->wait();
+    }
+
+    public function workerCode(int $counter, string $param2)
+    {
+        return $param2 . $counter;
+    }
+}
+
+$app = new SampleObjectMethodEntrypoint();
+$app->execute();
 ```
 
 `workerCode()` is a method inside the current class.
@@ -129,10 +170,6 @@ class TestAsyncCommand extends Command
                     // do something with the value
                     echo "$value\n";
                     return $value;
-                },
-                function ($reason) {
-                    echo "\n\nErrors:\n$reason\n";
-                    return $reason;
                 }
             );
         }
