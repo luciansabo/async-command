@@ -67,7 +67,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 
 /** @var PromiseInterface $promise */
 
-$promise = new Promise();
+//$promise = new Promise();
 $promise->then(
     // $onFulfilled
     function ($value) {
@@ -133,9 +133,9 @@ $app->execute();
 
 `workerCode()` is a method inside the current class.
 
-## Executing worker code from withing symfony commands
+## Executing worker code from within Symfony Console Commands
 
-To define a entrypoint inside the current symfony command use `SymfonyCommandEntryPoint`:
+To define a entry-point inside the current symfony command use `SymfonyCommandEntryPoint`:
 
 ```php
 use Lucian\AsyncCommand\EntryPoint\SymfonyCommandEntryPoint;
